@@ -1,63 +1,7 @@
-// import React, { useState } from 'react';
-// import { supabase } from '../lib/supabase';
-// import { Box, VStack, HStack, Text, Input, Button, Pressable, Icon, ArrowLeftIcon, Heading, FormControl, FormControlLabel, ButtonIcon, ButtonText, Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel, CheckIcon, EyeIcon, EyeOffIcon, FormControlError, FormControlErrorIcon, FormControlErrorText, FormControlLabelText, InputField, InputIcon, InputSlot, Link, LinkText } from './ui';
-// import { createStackNavigator } from '@react-navigation/stack';
 
-// const Stack = createStackNavigator();
-
-// export default function Auth() {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [loading, setLoading] = useState(false);
-
-//   async function signInWithEmail() {
-//     setLoading(true);
-//     const { error } = await supabase.auth.signInWithPassword({
-//       email,
-//       password,
-//     });
-
-//     // if (error) {
-//     //   Alert.alert('Login Error', error.message);
-//     // } else {
-//     //   Alert.alert('Success', 'You are now signed in!');
-//     // }
-//     // setLoading(false);
-//   }
-
-//   return (
-
-//     <Box>
-//       <VStack>
-//         <Box>
-//           <Text>Email</Text>
-//           <Input
-//             placeholder="email@address.com"
-//             keyboardType="email-address"
-//             autoCapitalize="none"
-//             value={email}
-//             onChangeText={setEmail}
-//           />
-//         </Box>
-//         <Box>
-//           <Text>Password</Text>
-//           <Input
-//             placeholder="Password"
-//             secureTextEntry
-//             autoCapitalize="none"
-//             value={password}
-//             onChangeText={setPassword}
-//           />
-//         </Box>
-//         <HStack>
-//           <Button isDisabled={loading} onPress={signInWithEmail}>
-//             {loading ? 'Signing in...' : 'Sign in'}
-//           </Button>
-//         </HStack>
-//       </VStack>
-//     </Box>
-//   );
-// }
+import { SafeAreaView } from "@/components/ui/safe-area-view";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Image } from "@/components/ui/image";
 import React, { useState } from 'react';
 import { Alert } from 'react-native';
 import { supabase } from '../lib/supabase';
@@ -65,15 +9,17 @@ import { Box, VStack, HStack, Text, Input, Button, Pressable, Icon, ArrowLeftIco
 import { AlertTriangle } from 'lucide-react-native';
 import { Controller, useForm } from 'react-hook-form';
 
+
 type FormData = {
   email: string;
   password: string;
 };
 
 export default function Auth() {
+
   const [loading, setLoading] = useState(false);
   const { control, handleSubmit, formState: { errors }, setError } = useForm<FormData>();
-  
+
   // Email and Password validation functions
   const validateEmail = (email: string) => {
     if (!email) return 'Email is required';
@@ -102,137 +48,140 @@ export default function Auth() {
   };
 
   return (
-    <Box className="mt-10 p-3">
-      <VStack className="max-w-[440px] w-full space-md">
-        <VStack className="md:items-center space-md">
-          <Pressable>
-            <Icon as={ArrowLeftIcon} className="md:hidden text-background-800" size="xl" />
-          </Pressable>
-          <VStack>
-            <Heading className="md:text-center" size="3xl">
-              Log in
-            </Heading>
-            <Text>Login to start using Gluestack</Text>
-          </VStack>
-        </VStack>
-
-        {/* Email input */}
-        <VStack className="py-1 w-[50%] mt-5">
-          <FormControl isInvalid={!!errors?.email}>
-            <FormControlLabel>
-              <FormControlLabelText>Email</FormControlLabelText>
-            </FormControlLabel>
-            <Controller
-              name="email"
-              control={control}
-              rules={{ validate: validateEmail }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input className="w-full">
-                  <InputField
-                    placeholder="Enter email"
-                    value={value}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                  />
-                </Input>
-              )}
-            />
-            <FormControlError>
-              <FormControlErrorIcon as={AlertTriangle} />
-              {/* <FormControlErrorText>{errors?.email?.message}</FormControlErrorText> */}
-            </FormControlError>
-          </FormControl>
-        </VStack>
-
-        
-
-        {/* Password input */}
-        <VStack className="py-1 w-[50%]">
-          <FormControl isInvalid={!!errors?.password}>
-            <FormControlLabel>
-              <FormControlLabelText>Password</FormControlLabelText>
-            </FormControlLabel>
-            <Controller
-              name="password"
-              control={control}
-              rules={{ validate: validatePassword }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input className="w-full">
-                  <InputField
-                    secureTextEntry
-                    placeholder="Enter password"
-                    value={value}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                  />
-                </Input>
-              )}
-            />
-            <FormControlError>
-              <FormControlErrorIcon as={AlertTriangle} />
-              {/* <FormControlErrorText>{errors?.password?.message}</FormControlErrorText> */}
-            </FormControlError>
-          </FormControl>
-        </VStack>
-
-        {/* Remember me checkbox */}
-        <HStack className="w-full justify-between mt-5">
-          <Controller
-            name="remember"
-            defaultValue=""
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Checkbox
-                size="sm"
-                value="Remember me"
-                isChecked={value}
-                onChange={onChange}
-                aria-label="Remember me"
-              >
-                <CheckboxIndicator>
-                  <CheckboxIcon as={CheckIcon} />
-                </CheckboxIndicator>
-                <CheckboxLabel>Remember me</CheckboxLabel>
-              </Checkbox>
-            )}
-          />
-          <Link href="/auth/forgot-password">
-            <LinkText className="font-medium text-sm text-primary-700 group-hover/link:text-primary-600">
-              Forgot Password?
-            </LinkText>
-          </Link>
-        </HStack>
-
-        {/* Sign in button */}
-        <VStack className="w-full my-7 space-lg">
-          <Button className="w-full" onPress={handleSubmit((data: FormData) => signInWithEmail(data))} isDisabled={loading}>
-            <ButtonText className="font-medium">
-              {loading ? 'Signing in...' : 'Log in'}
-            </ButtonText>
-          </Button>
-          <Button
-            variant="outline"
-            action="secondary"
-            className="w-full gap-1"
-            onPress={() => {}}
+    <SafeAreaView className="w-full h-full">
+      <ScrollView
+        className="w-full h-full"
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <HStack className="w-full h-full bg-background-0 flex-grow justify-center">
+          <VStack
+            className="relative hidden md:flex h-full w-full flex-1  items-center  justify-center"
+            space="md"
           >
-          </Button>
-        </VStack>
+            <Image
+              height="100%"
+              width="100%"
+              source={require("@/assets/radialGradient.png")}
+              className="object-cover h-full w-full"
+              alt="Radial Gradient"
+            />
+          </VStack>
 
-        {/* Signup link */}
-        <HStack className="self-center space-sm">
-          <Text size="md">Don't have an account?</Text>
-          <Link href="/auth/signup">
-            <LinkText
-              className="font-medium text-primary-700 group-hover/link:text-primary-600 group-hover/pressed:text-primary-700"
-              size="md"
-            >
-              Sign up
-            </LinkText>
-          </Link>
+
+
+
+          <VStack
+            className="flex-1 w-full h-full items-center justify-center p-6 md:p-10 bg-[url('@/assets/radialGradient.png')] md:bg-none bg-cover bg-center"
+          >
+            <Box className="p-6 md:p-8 bg-white shadow-lg rounded-lg max-w-md w-full">
+              <VStack className="space-y-6">
+                <VStack className="space-y-4 items-center">
+                  <Pressable>
+                    <Icon as={ArrowLeftIcon} className="md:hidden text-gray-500" size="xl" />
+                  </Pressable>
+                  <VStack className="text-center">
+                    <Heading className="text-2xl font-bold text-gray-800">Log in</Heading>
+                  </VStack>
+                </VStack>
+
+                {/* Email input */}
+                <VStack className="space-y-2">
+                  <FormControl isInvalid={!!errors?.email}>
+                    <FormControlLabel>
+                      <FormControlLabelText className="text-gray-700">Email</FormControlLabelText>
+                    </FormControlLabel>
+                    <Controller
+                      name="email"
+                      control={control}
+                      rules={{ validate: validateEmail }}
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <Input className="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-500">
+                          <InputField
+                            placeholder="Enter email"
+                            value={value}
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                            className="text-sm text-gray-800"
+                          />
+                        </Input>
+                      )}
+                    />
+                    {errors?.email && (
+                      <Text className="text-red-500 text-sm mt-1">{errors.email.message}</Text>
+                    )}
+                  </FormControl>
+                </VStack>
+
+                {/* Password input */}
+                <VStack className="space-y-2">
+                  <FormControl isInvalid={!!errors?.password}>
+                    <FormControlLabel>
+                      <FormControlLabelText className="text-gray-700">Password</FormControlLabelText>
+                    </FormControlLabel>
+                    <Controller
+                      name="password"
+                      control={control}
+                      rules={{ validate: validatePassword }}
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <Input className="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-500">
+                          <InputField
+                            secureTextEntry
+                            placeholder="Enter password"
+                            value={value}
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                            className="text-sm text-gray-800"
+                          />
+                        </Input>
+                      )}
+                    />
+                    {errors?.password && (
+                      <Text className="text-red-500 text-sm mt-1">{errors.password.message}</Text>
+                    )}
+                  </FormControl>
+                </VStack>
+
+                {/* Remember me and forgot password */}
+                <HStack className="justify-between items-center space-y-2">
+                  <Checkbox>
+                    <CheckboxIndicator className="bg-gray-100 rounded">
+                      <CheckboxIcon as={CheckIcon} className="text-white" />
+                    </CheckboxIndicator>
+                    <CheckboxLabel className="ml-2 text-gray-700">Remember me</CheckboxLabel>
+                  </Checkbox>
+                  <Link href="/auth/forgot-password">
+                    <Text className="text-sm text-blue-600 hover:underline">Forgot Password?</Text>
+                  </Link>
+                </HStack>
+
+                {/* Sign in button */}
+                <Button
+                  className={`w-full py-2 bg-black text-white rounded-md hover:bg-blue-500 focus:ring focus:ring-blue-400 ${loading ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
+                  onPress={handleSubmit((data: FormData) => signInWithEmail(data))}
+                  disabled={loading}
+                >
+                  {loading ? "Signing in..." : "Log In"}
+                </Button>
+
+                {/* Signup link */}
+                <HStack className="justify-center space-x-2">
+                  <Text className="text-gray-600">Don't have an account?</Text>
+                  <Link href="/auth/signup">
+                    <Text className="text-blue-600 font-medium hover:underline">Sign up</Text>
+                  </Link>
+                </HStack>
+              </VStack>
+            </Box>
+          </VStack>
+
+
+
+
         </HStack>
-      </VStack>
-    </Box>
+      </ScrollView>
+    </SafeAreaView>
   );
-}
+};
+
 

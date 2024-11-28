@@ -6,7 +6,8 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "typeRoots": ["./node_modules/@types", "./custom.d.ts"]
   },
   "paths": {
     "@/*": [
