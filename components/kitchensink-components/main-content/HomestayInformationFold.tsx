@@ -438,7 +438,7 @@ const TabPanelData = ({ activeTab }: any) => {
                       </AnimatePresence>
                     </Pressable>
 
-                    <HStack className="justify-between py-2 items-start">
+                    <HStack className="justify-between py-1 items-start">
                       <VStack space="sm" className="flex-1">
                         <Text className="font-semibold text-typography-900">
                           {image.title}

@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "build": "echo 'Hello world'",
     "start": "serve dist --single",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "vercel-build": "expo export:web"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
