@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Auth from "./components/Auth";
 import { supabase } from "./lib/supabase";
 import { Session } from '@supabase/supabase-js'
+import { View } from 'react-native';
 
 const Stack = createStackNavigator()
 
@@ -30,10 +31,10 @@ export const ThemeContext = React.createContext<ThemeContextType>({
 
 
 export default function App() {
-const [session, setSession] = useState<Session | null>(null)
-
-  // Add console log to debug session state
-  console.log('Current session:', session)
+  const [session, setSession] = useState<Session | null>(null)
+  const [colorMode, setColorMode] = React.useState<"dark" | "light">(defaultTheme);
+  const backgroundColor = colorMode === "light" ? "#FFFFFF" : "#171717";
+  const topBackgroundColor = colorMode === "light" ? "#E5E5E5" : "#262626";
 
   useEffect(() => {
     // Set the session when the app starts
@@ -49,47 +50,56 @@ const [session, setSession] = useState<Session | null>(null)
     // Cleanup the subscription on component unmount
     return () => subscription.subscription.unsubscribe()
   }, [])
-  const [colorMode, setColorMode] = React.useState<"dark" | "light">(
-    defaultTheme
-  );
 
   const toggleColorMode = async () => {
     setColorMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   return (
-    <>
-      {/* top SafeAreaView */}
-      <SafeAreaView
-        className={`${colorMode === "light" ? "bg-[#E5E5E5]" : "bg-[#262626]"}`}
-      />
+    <View style={{ flex: 1, backgroundColor }}>
+      <SafeAreaView style={{ backgroundColor: topBackgroundColor }} />
       <ThemeContext.Provider value={{ colorMode, toggleColorMode }}>
         <GluestackUIProvider mode={colorMode}>
-          {/* bottom SafeAreaView */}
-          <SafeAreaView
-            className={`${colorMode === "light" ? "bg-white" : "bg-[#171717]"
-              } flex-1 overflow-hidden`}
-          >
-            <NavigationContainer>
-              <Stack.Navigator>
-                {session && session.user ? (
-                  <Stack.Screen
-                    name="Home"
-                    component={HomestayPage}
-                    options={{ headerShown: false }}
-                  />
-                ) : (
-                  <Stack.Screen
-                    name="Auth"
-                    component={Auth}
-                    options={{ headerShown: false }}
-                  />
-                )}
-              </Stack.Navigator>
-            </NavigationContainer>
+          <SafeAreaView style={{ 
+            flex: 1, 
+            backgroundColor,
+            overflow: 'hidden'
+          }}>
+            <View style={{ 
+              flex: 1, 
+              backgroundColor 
+            }}>
+              <NavigationContainer>
+                <Stack.Navigator 
+                  screenOptions={{
+                    cardStyle: { backgroundColor }
+                  }}
+                >
+                  {session && session.user ? (
+                    <Stack.Screen
+                      name="Home"
+                      component={HomestayPage}
+                      options={{ 
+                        headerShown: false,
+                        cardStyle: { backgroundColor }
+                      }}
+                    />
+                  ) : (
+                    <Stack.Screen
+                      name="Auth"
+                      component={Auth}
+                      options={{ 
+                        headerShown: false,
+                        cardStyle: { backgroundColor }
+                      }}
+                    />
+                  )}
+                </Stack.Navigator>
+              </NavigationContainer>
+            </View>
           </SafeAreaView>
         </GluestackUIProvider>
       </ThemeContext.Provider>
-    </>
+    </View>
   );
 }

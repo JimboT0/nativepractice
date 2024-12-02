@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "../../ui";
+import { Box, Heading } from "../../ui";
 import HomestayInformationFold from "./HomestayInformationFold";
 import MainContentHeader from "./MainContentHeader";
 import NewThisWeekFold from "./NewThisWeekFold";
@@ -20,6 +20,7 @@ const MainContent = ({
           activeTab={activeTab}
         />
         {/* explore page new this week fold 1 */}
+        
         <NewThisWeekFold />
         {/* explore page homestay info fold 2 */}
         <HomestayInformationFold />

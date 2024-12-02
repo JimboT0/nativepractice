@@ -69,111 +69,122 @@ export default function Auth() {
 
 
 
-
           <VStack
-            className="flex-1 w-full h-full items-center justify-center p-6 md:p-10 bg-[url('@/assets/radialGradient.png')] md:bg-none bg-cover bg-center"
-          >
-            <Box className="p-6 md:p-8 bg-white shadow-lg rounded-lg max-w-md w-full">
-              <VStack className="space-y-6">
-                <VStack className="space-y-4 items-center">
-                  <Pressable>
-                    <Icon as={ArrowLeftIcon} className="md:hidden text-gray-500" size="xl" />
-                  </Pressable>
-                  <VStack className="text-center">
-                    <Heading className="text-2xl font-bold text-gray-800">Log in</Heading>
-                  </VStack>
-                </VStack>
+  className="flex-1 w-full h-full items-center justify-center p-6 md:p-10 bg-[url('@/assets/radialGradient.png')] md:bg-none bg-cover bg-center"
+>
+  <VStack className="space-y-8">
+    {/* Heading Section */}
+    <VStack className="space-y-6 items-center">
+      <Pressable>
+        <Icon as={ArrowLeftIcon} className="md:hidden text-gray-500" size="xl" />
+      </Pressable>
+      <VStack className="text-center">
+        <Heading className="text-3xl font-bold text-gray-800">Log in</Heading>
+        <Text className="text-gray-600 text-sm mt-1">
+          Enter your credentials to access your account.
+        </Text>
+      </VStack>
+    </VStack>
 
-                {/* Email input */}
-                <VStack className="space-y-2">
-                  <FormControl isInvalid={!!errors?.email}>
-                    <FormControlLabel>
-                      <FormControlLabelText className="text-gray-700">Email</FormControlLabelText>
-                    </FormControlLabel>
-                    <Controller
-                      name="email"
-                      control={control}
-                      rules={{ validate: validateEmail }}
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <Input className="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-500">
-                          <InputField
-                            placeholder="Enter email"
-                            value={value}
-                            onChangeText={onChange}
-                            onBlur={onBlur}
-                            className="text-sm text-gray-800"
-                          />
-                        </Input>
-                      )}
-                    />
-                    {errors?.email && (
-                      <Text className="text-red-500 text-sm mt-1">{errors.email.message}</Text>
-                    )}
-                  </FormControl>
-                </VStack>
+    {/* Email Input */}
+    <VStack className="space-y-4">
+      <FormControl isInvalid={!!errors?.email}>
+        <FormControlLabel>
+          <FormControlLabelText className="text-gray-700 text-sm font-medium">
+            Email
+          </FormControlLabelText>
+        </FormControlLabel>
+        <Controller
+          name="email"
+          control={control}
+          rules={{ validate: validateEmail }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              className="w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm transition-all"
+            >
+              <InputField
+                placeholder="Enter email"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                className="text-sm text-gray-800"
+              />
+            </Input>
+          )}
+        />
+        {errors?.email && (
+          <Text className="text-red-500 text-sm mt-2">{errors.email.message}</Text>
+        )}
+      </FormControl>
+    </VStack>
 
-                {/* Password input */}
-                <VStack className="space-y-2">
-                  <FormControl isInvalid={!!errors?.password}>
-                    <FormControlLabel>
-                      <FormControlLabelText className="text-gray-700">Password</FormControlLabelText>
-                    </FormControlLabel>
-                    <Controller
-                      name="password"
-                      control={control}
-                      rules={{ validate: validatePassword }}
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <Input className="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-500">
-                          <InputField
-                            secureTextEntry
-                            placeholder="Enter password"
-                            value={value}
-                            onChangeText={onChange}
-                            onBlur={onBlur}
-                            className="text-sm text-gray-800"
-                          />
-                        </Input>
-                      )}
-                    />
-                    {errors?.password && (
-                      <Text className="text-red-500 text-sm mt-1">{errors.password.message}</Text>
-                    )}
-                  </FormControl>
-                </VStack>
+    {/* Password Input */}
+    <VStack className="space-y-4">
+      <FormControl isInvalid={!!errors?.password}>
+        <FormControlLabel>
+          <FormControlLabelText className="text-gray-700 text-sm font-medium">
+            Password
+          </FormControlLabelText>
+        </FormControlLabel>
+        <Controller
+          name="password"
+          control={control}
+          rules={{ validate: validatePassword }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              className="w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 shadow-sm transition-all"
+            >
+              <InputField
+                secureTextEntry
+                placeholder="Enter password"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                className="text-sm text-gray-800"
+              />
+            </Input>
+          )}
+        />
+        {errors?.password && (
+          <Text className="text-red-500 text-sm mt-2">{errors.password.message}</Text>
+        )}
+      </FormControl>
+    </VStack>
 
-                {/* Remember me and forgot password */}
-                <HStack className="justify-between items-center space-y-2">
-                  <Checkbox>
-                    <CheckboxIndicator className="bg-gray-100 rounded">
-                      <CheckboxIcon as={CheckIcon} className="text-white" />
-                    </CheckboxIndicator>
-                    <CheckboxLabel className="ml-2 text-gray-700">Remember me</CheckboxLabel>
-                  </Checkbox>
-                  <Link href="/auth/forgot-password">
-                    <Text className="text-sm text-blue-600 hover:underline">Forgot Password?</Text>
-                  </Link>
-                </HStack>
+    {/* Remember Me and Forgot Password */}
+    <HStack className="justify-between items-center mt-2">
+      <Checkbox>
+        <CheckboxIndicator className="bg-gray-100 rounded">
+          <CheckboxIcon as={CheckIcon} className="text-white" />
+        </CheckboxIndicator>
+        <CheckboxLabel className="ml-2 text-gray-700 text-sm">Remember me</CheckboxLabel>
+      </Checkbox>
+      <Link href="/auth/forgot-password">
+        <Text className="text-sm text-blue-600 hover:underline">Forgot Password?</Text>
+      </Link>
+    </HStack>
 
-                {/* Sign in button */}
-                <Button
-                  className={`w-full py-2 bg-black text-white rounded-md hover:bg-blue-500 focus:ring focus:ring-blue-400 ${loading ? "opacity-70 cursor-not-allowed" : ""
-                    }`}
-                  onPress={handleSubmit((data: FormData) => signInWithEmail(data))}
-                  disabled={loading}
-                >
-                  {loading ? "Signing in..." : "Log In"}
-                </Button>
+    {/* Sign In Button */}
+    <Button
+      className={`w-full py-3 bg-black mt-4 mb-4 text-white rounded-lg focus:ring-2 focus:ring-blue-500 transition-all ${
+        loading ? " cursor-not-allowed" : ""
+      }`}
+      onPress={handleSubmit((data: FormData) => signInWithEmail(data))}
+      disabled={loading}
+    >
+      {loading ? "Signing in..." : "Log In"}
+    </Button>
 
-                {/* Signup link */}
-                <HStack className="justify-center space-x-2">
-                  <Text className="text-gray-600">Don't have an account?</Text>
-                  <Link href="/auth/signup">
-                    <Text className="text-blue-600 font-medium hover:underline">Sign up</Text>
-                  </Link>
-                </HStack>
-              </VStack>
-            </Box>
-          </VStack>
+    {/* Signup Link */}
+    <VStack className="justify-center space-x-2">
+      <Text className="text-gray-600 text-sm">Don't have an account?</Text>
+      <Link href="/auth/signup">
+        <Text className="text-blue-600 font-medium hover:underline">Sign up</Text>
+      </Link>
+    </VStack>
+  </VStack>
+</VStack>
+
 
 
 

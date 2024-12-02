@@ -11,6 +11,7 @@ import {
   TooltipContent,
   TooltipText,
   StarIcon,
+  Heading,
 } from "../../ui";
 import { ChevronRight, Heart } from "lucide-react-native";
 import { AnimatePresence, Motion } from "@legendapp/motion";
@@ -19,39 +20,13 @@ import { ThemeContext } from "../../../App";
 
 const tabsData = [
   {
-    name: "tropical",
+    name: "Popular",
     data: [
       {
-        title: "ImageView Inn",
-        src: require("../../../assets/display/image16.png"),
-        location: "401 Platte River Rd, Gothenburg, United States",
-        price: "$1,481",
-        rating: 4.9,
-      },
-      {
-        title: "Spinner Resort",
-        src: require("../../../assets/display/image17.png"),
-        location: "1502 Silica Ave, Sacramento California",
-        price: "$1,381",
-        rating: 4.89,
-      },
-      {
-        title: "DropDown Den",
-        src: require("../../../assets/display/image18.png"),
-        location: "2945 Entry Point Blvd, Kissimmee, Florida",
-        price: "$2,481",
-        rating: 4.6,
-      },
-    ],
-  },
-  {
-    name: "amazing views",
-    data: [
-      {
-        title: "ImageView Inn",
-        src: require("../../../assets/display/image19.png"),
-        location: "401 Platte River Rd, Gothenburg, United States",
-        price: "$1,481",
+        title: "Car Wash",
+        src: require("../../../assets/display/carwash.jpg"),
+        location: "1 1st Street",
+        price: "R300",
         rating: 4.9,
       },
       {
@@ -71,7 +46,7 @@ const tabsData = [
     ],
   },
   {
-    name: "caves",
+    name: "Gardening",
     data: [
       {
         title: "ImageView Inn",
@@ -97,7 +72,7 @@ const tabsData = [
     ],
   },
   {
-    name: "mansions",
+    name: "Cleaning",
     data: [
       {
         title: "ImageView Inn",
@@ -123,7 +98,7 @@ const tabsData = [
     ],
   },
   {
-    name: "amazing pools",
+    name: "Security",
     data: [
       {
         title: "ImageView Inn",
@@ -149,7 +124,7 @@ const tabsData = [
     ],
   },
   {
-    name: "cabins",
+    name: "Maintenance",
     data: [
       {
         title: "ImageView Inn",
@@ -175,7 +150,7 @@ const tabsData = [
     ],
   },
   {
-    name: "beachfront",
+    name: "Wellness",
     data: [
       {
         title: "ImageView Inn",
@@ -201,7 +176,7 @@ const tabsData = [
     ],
   },
   {
-    name: "countryside",
+    name: "Transport",
     data: [
       {
         title: "ImageView Inn",
@@ -227,7 +202,7 @@ const tabsData = [
     ],
   },
   {
-    name: "tiny homes",
+    name: "Assistance",
     data: [
       {
         title: "ImageView Inn",
@@ -253,7 +228,7 @@ const tabsData = [
     ],
   },
   {
-    name: "national parks",
+    name: "Other",
     data: [
       {
         title: "ImageView Inn",
@@ -280,43 +255,42 @@ const tabsData = [
   },
 ];
 
+
 const tabs = [
   {
-    title: "Tropical",
+    title: "Popular", 
   },
   {
-    title: "Amazing views",
+    title: "Gardening",
   },
   {
-    title: "Caves",
+    title: "Cleaning",
   },
   {
-    title: "Mansions",
+    title: "Security",
   },
   {
-    title: "Amazing pools",
+    title: "Maintenance",
   },
   {
-    title: "Cabins",
+    title: "Wellness",
   },
   {
-    title: "Beachfront",
+    title: "Transport",
   },
   {
-    title: "Countryside",
+    title: "Assistance",
   },
   {
-    title: "Tiny homes",
-  },
-  {
-    title: "National parks",
+    title: "Other",
   },
 ];
 
 const HomestayInformationFold = () => {
   const [activeTab, setActiveTab] = React.useState(tabs[0]);
   return (
-    <Box className="pb-8 px-4 md:px-0">
+    <Box className="pt-4 px-4 md:px-0">
+      <Heading size="xl">Services</Heading>
       <HomestayInfoTabs
         tabs={tabs}
         activeTab={activeTab}
@@ -330,29 +304,26 @@ const HomestayInformationFold = () => {
 const HomestayInfoTabs = ({ tabs, activeTab, setActiveTab }: any) => {
   return (
     <Box className="border-b border-outline-50 md:border-b-0 md:border-transparent">
-      <Box className="py-5">
+      <Box className="py-2">
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <HStack space="lg" className="mx-0.5 xl:gap-5 2xl:gap-6">
             {tabs.map((tab: any) => {
               return (
                 <Pressable
                   key={tab.title}
-                  className={`my-0.5 py-1 ${
-                    activeTab === tab ? "border-b-[3px]" : "border-b-0"
-                  } border-outline-900 hover:border-b-[3px] ${
-                    activeTab === tab
+                  className={`my-0.5 py-1 ${activeTab === tab ? "border-b-[3px]" : "border-b-0"
+                    } border-outline-900 hover:border-b-[3px] ${activeTab === tab
                       ? "hover:border-outline-900"
                       : "hover:border-outline-200"
-                  } `}
+                    } `}
                   onPress={() => setActiveTab(tab)}
                 >
                   <Text
                     size="sm"
-                    className={`${
-                      activeTab === tab
+                    className={`${activeTab === tab
                         ? "text-typography-900"
                         : "text-typography-600"
-                    } font-medium`}
+                      } font-medium`}
                   >
                     {tab.title}
                   </Text>
@@ -380,9 +351,8 @@ const TabPanelData = ({ activeTab }: any) => {
                 return (
                   <Box
                     key={index}
-                    className={`flex-1 my-2 lg:my-0 ${
-                      index === 0 ? "lg:ml-0" : "lg:ml-2"
-                    } ${index === tabsData.length - 1 ? "lg:mr-0" : "lg:mr-2"}`}
+                    className={`flex-1 my-2 lg:my-0 ${index === 0 ? "lg:ml-0" : "lg:ml-2"
+                      } ${index === tabsData.length - 1 ? "lg:mr-0" : "lg:mr-2"}`}
                   >
                     <Pressable className="w-full">
                       {(props: any) => {
@@ -391,11 +361,10 @@ const TabPanelData = ({ activeTab }: any) => {
                             <Box className="overflow-hidden rounded-md h-72">
                               <Image
                                 source={image.src}
-                                className={`w-full h-72 ${
-                                  props.hovered
+                                className={`w-full h-72 ${props.hovered
                                     ? "scale-[1.04] opacity-90"
                                     : "scale-100 opacity-100"
-                                }`}
+                                  }`}
                                 alt="Explore"
                               />
                             </Box>
@@ -403,9 +372,8 @@ const TabPanelData = ({ activeTab }: any) => {
                               <Box className="absolute bg-[#181718] opacity-30 w-full h-full cursor-pointer" />
                             )}
                             <Box
-                              className={`absolute top-[45%] bg-transparent rounded border border-white self-center content-center py-1.5 px-4 flex-row ${
-                                props.hovered ? "flex" : "hidden"
-                              }`}
+                              className={`absolute top-[45%] bg-transparent rounded border border-white self-center content-center py-1.5 px-4 flex-row ${props.hovered ? "flex" : "hidden"
+                                }`}
                             >
                               <Text className="text-white">Explore</Text>
                               <Icon
@@ -461,11 +429,10 @@ const TabPanelData = ({ activeTab }: any) => {
                           <Icon
                             as={Heart}
                             size="lg"
-                            className={`${
-                              likes.includes(image.title)
+                            className={`${likes.includes(image.title)
                                 ? "fill-red-500 stroke-red-500"
                                 : "fill-gray-500 stroke-white"
-                            }`}
+                              }`}
                           />
                         </Motion.View>
                       </AnimatePresence>
@@ -486,9 +453,7 @@ const TabPanelData = ({ activeTab }: any) => {
                           >
                             {image.price}
                           </Text>
-                          <Text size="sm" className="pl-1 text-typography-900">
-                            night
-                          </Text>
+
                         </HStack>
                       </VStack>
                       <Tooltip

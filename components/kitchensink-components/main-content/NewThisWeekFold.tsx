@@ -6,58 +6,65 @@ import {
   Image,
   Icon,
   Pressable,
+  Text,
 } from "../../ui";
 import { ScrollView } from "react-native";
-import { ChevronLeft, ChevronRight } from "lucide-react-native";
+import { ChevronLeft, ChevronRight, Clock, PenBox } from "lucide-react-native";
 import { ThemeContext } from "../../../App";
+import { 
+  Settings, 
+  Users, 
+  Layout, 
+  Bell, 
+  Calendar,
+  Mail,
+  FileText,
+  Image as ImageIcon,
+  Bookmark,
+  Map,
+  Phone,
+  Share2,
+  ShoppingCart,
+  Star,
+} from "lucide-react-native";
 
 const data = [
   {
-    src: require("../../../assets/display/image1.png"),
+    icon: PenBox,
+    description: "Requests",
   },
   {
-    src: require("../../../assets/display/image2.png"),
-  },
-
-  {
-    src: require("../../../assets/display/image4.png"),
-  },
-  // {
-  //   src: require("../../assets/display/image5.png"),
-  // },
-  {
-    src: require("../../../assets/display/image6.png"),
-  },
-  // {
-  //   src: require("../../assets/display/image7.png"),
-  // },
-  {
-    src: require("../../../assets/display/image8.png"),
-  },
-  // {
-  //   src: require("../../assets/display/image9.png"),
-  // },
-  {
-    src: require("../../../assets/display/image10.png"),
+    icon: Users,
+    description: "Meetings",
   },
   {
-    src: require("../../../assets/display/image3.png"),
+    icon: Calendar,
+    description: "Calendar",
   },
   {
-    src: require("../../../assets/display/image11.png"),
+    icon: FileText,
+    description: "Documents",
   },
   {
-    src: require("../../../assets/display/image12.png"),
+    icon: ImageIcon,
+    description: "Gallery",
   },
   {
-    src: require("../../../assets/display/image13.png"),
+    icon: Bookmark,
+    description: "Bookmarks",
   },
   {
-    src: require("../../../assets/display/image14.png"),
+    icon: Map,
+    description: "Maps",
   },
-  // {
-  //   src: require("../../assets/display/image15.png"),
-  // },
+  {
+    icon: Phone,
+    description: "Contacts",
+  },
+  {
+    icon: Share2,
+    description: "Share",
+  },
 ];
 
 const NewThisWeekFold = () => {
@@ -65,6 +72,7 @@ const NewThisWeekFold = () => {
   const scrollAmount = 400;
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isContentAtRight, setIsContentAtRight] = useState(true);
+  const { colorMode } = useContext(ThemeContext);
 
   const handleScrollLeft = () => {
     const newScrollPosition = scrollPosition - scrollAmount;
@@ -124,16 +132,23 @@ const NewThisWeekFold = () => {
         }}
       >
         <HStack space="md" className="w-full px-4 md:px-0">
-          {data.map((image, index) => {
+          {data.map((item, index) => {
             return (
-              <Box key={index} className="flex-1">
-                <Image
-                  source={image.src}
-                  alt={"place" + index}
-                  // @ts-ignore
-                  className="w-64 h-64 rounded-md"
-                  resizeMode="cover"
-                />
+              <Box key={index} className="flex-shrink-0 border shadow-sm rounded-md m-2">
+                <Box className="w-32 h-32 rounded-md bg-background-100 items-center justify-center">
+                  <Icon 
+                    as={item.icon}
+                    size="xl"
+                    color={colorMode === "light" ? "#535252" : "#DCDBDB"}
+                  />
+                                  <Text 
+                  className="text-center mt-2 text-sm"
+                  // color={colorMode === "light" ? "#535252" : "#DCDBDB"}
+                >
+                  {item.description}
+                </Text>
+                </Box>
+
               </Box>
             );
           })}
