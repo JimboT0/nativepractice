@@ -9,13 +9,13 @@ import {
   Text,
 } from "../../ui";
 import { ScrollView } from "react-native";
-import { ChevronLeft, ChevronRight, Clock, PenBox } from "lucide-react-native";
+import { ChevronLeft, ChevronRight, Clock, LucideIcon, PenBox } from "lucide-react-native";
 import { ThemeContext } from "../../../App";
-import { 
-  Settings, 
-  Users, 
-  Layout, 
-  Bell, 
+import {
+  Settings,
+  Users,
+  Layout,
+  Bell,
   Calendar,
   Mail,
   FileText,
@@ -27,6 +27,9 @@ import {
   ShoppingCart,
   Star,
 } from "lucide-react-native";
+import { useNavigation } from '@react-navigation/native';
+import { Linking, Modal } from 'react-native';
+import ListYourPlaceModal from "./ListYourPlaceModal";
 
 const data = [
   {
@@ -73,6 +76,8 @@ const NewThisWeekFold = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isContentAtRight, setIsContentAtRight] = useState(true);
   const { colorMode } = useContext(ThemeContext);
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleScrollLeft = () => {
     const newScrollPosition = scrollPosition - scrollAmount;
@@ -114,8 +119,30 @@ const NewThisWeekFold = () => {
     return false;
   };
 
+  const handlePress = (item: { icon?: LucideIcon; description: any; }) => {
+    switch (item.description) {
+      case "Requests":
+        setModalVisible(true);
+        break;
+      case "Meetings":
+        navigation.navigate('MeetingsPage');
+        break;
+      case "Calendar":
+        Linking.openURL('https://calendar.example.com');
+        break;
+      // Add more cases as needed
+      default:
+        break;
+    }
+  };
+
   return (
     <Box className="w-full">
+      <ListYourPlaceModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+      
       <ScrollView
         horizontal
         style={{ width: "100%" }}
@@ -134,22 +161,22 @@ const NewThisWeekFold = () => {
         <HStack space="md" className="w-full px-4 md:px-0">
           {data.map((item, index) => {
             return (
-              <Box key={index} className="flex-shrink-0 border shadow-sm rounded-md m-2">
-                <Box className="w-32 h-32 rounded-md bg-background-100 items-center justify-center">
-                  <Icon 
-                    as={item.icon}
-                    size="xl"
-                    color={colorMode === "light" ? "#535252" : "#DCDBDB"}
-                  />
-                                  <Text 
-                  className="text-center mt-2 text-sm"
-                  // color={colorMode === "light" ? "#535252" : "#DCDBDB"}
-                >
-                  {item.description}
-                </Text>
+              <Pressable key={index} onPress={() => handlePress(item)}>
+                <Box className="flex-shrink-0 border shadow-sm rounded-md m-2">
+                  <Box className="w-32 h-32 rounded-md bg-background-100 items-center justify-center">
+                    <Icon
+                      as={item.icon}
+                      size="xl"
+                      color={colorMode === "light" ? "#535252" : "#DCDBDB"}
+                    />
+                    <Text
+                      className="text-center mt-2 text-sm"
+                    >
+                      {item.description}
+                    </Text>
+                  </Box>
                 </Box>
-
-              </Box>
+              </Pressable>
             );
           })}
         </HStack>
@@ -171,11 +198,10 @@ const ScrollLeft = ({ handleScrollLeft, disabled }: any) => {
   return (
     <Center className="absolute left-0 h-full hidden md:flex">
       <Pressable
-        className={`p-1 ml-3 rounded-full border-outline-300 border bg-background-50 md:-ml-[16px] hover:bg-background-100 ${
-          disabled
+        className={`p-1 ml-3 rounded-full border-outline-300 border bg-background-50 md:-ml-[16px] hover:bg-background-100 ${disabled
             ? "data-[disabled=true]:opacity-0"
             : "data-[disabled=true]:opacity-100"
-        }`}
+          }`}
         disabled={disabled}
         onPress={handleScrollLeft}
       >
@@ -194,11 +220,10 @@ const ScrollRight = ({ handleScrollRight, disabled }: any) => {
   return (
     <Center className="absolute right-0 h-full hidden md:flex">
       <Pressable
-        className={`p-1 ml-3 rounded-full border-outline-300 border bg-background-50 md:-mr-4 hover:bg-background-100 ${
-          disabled
+        className={`p-1 ml-3 rounded-full border-outline-300 border bg-background-50 md:-mr-4 hover:bg-background-100 ${disabled
             ? "data-[disabled=true]:opacity-0"
             : "data-[disabled=true]:opacity-100"
-        }`}
+          }`}
         onPress={handleScrollRight}
         disabled={disabled}
       >

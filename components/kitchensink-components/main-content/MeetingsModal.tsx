@@ -108,7 +108,7 @@ const handleClose = (setModalVisible: any) => {
   setModalVisible(false);
 };
 
-const ListYourPlaceModal = ({ modalVisible, setModalVisible }: any) => {
+const MeetingsModal = ({ modalVisible, setModalVisible }: any) => {
   const { colorMode } = useContext(ThemeContext);
   const [modalFormStep, setModalFormStep] = React.useState(0);
 
